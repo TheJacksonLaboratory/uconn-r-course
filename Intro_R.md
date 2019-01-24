@@ -1,3 +1,13 @@
+<center>
+<h1>
+Programming in R: MEDS6498
+</h1>
+</center>
+<center>
+<h1>
+Ravi Pandey
+</h1>
+</center>
 <br>
 
 ------------------------------------------------------------------------
