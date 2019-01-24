@@ -1,0 +1,532 @@
+<center><h1>Programming in R: MEDS6498</h1></center>
+<center><h1>Ravi Pandey</h1></center>
+---
+css: style.css
+output:rmarkdownn::github_document
+---
+<br>
+
+
+
+---
+
+```{r, include=FALSE}
+#source("/Users/pandera/APOE4_TREM2/ROSMAP/Rcourse/chunk-options.R")
+#knitr_fig_path("01-")
+```
+
+
+## Before Starting The Course
+
+Please ensure you have the latest version of R and RStudio installed on your machine. This is important, as some packages used in the workshop may not install correctly (or at all) if R is not up to date.
+
+[Download and install the latest version of R here](https://www.r-project.org/)
+[Download and install RStudio here](https://www.rstudio.com/)
+
+---
+
+
+##Why use R?
+
+
+R is a powerful, extensible environment. It has a wide range of statistics and general data analysis and visualization capabilities.
+
+* Data handling, wrangling, and storage
+* Wide array of statistical methods and graphical techniques available
+* Easy to install on any platform and use (and it’s free!)
+* Open source with a large and growing community of peers
+
+<br><br>
+<center>
+![R logo](/Users/pandera//Rcourse/fig/why_R.png){ width=650px }\
+</center>
+
+---
+
+<br><br>
+
+## Introduction to RStudio
+
+RStudio is freely available open-source Integrated Development Environment (IDE). RStudio provides an environment with many features 
+to make using R easier and is a great alternative to working on R in the terminal. It provides a built in editor, works on all platforms (including
+on servers) and provides many advantages such as integration with version
+control and project management.Throughout this course, we're going to teach you some of the fundamentals of
+the R language as well as some best practices for organizing code for
+scientific projects that will make your life easier.
+<br><br>
+
+<center>
+![Rstudio logo](/Users/pandera/Rcourse/fig/rstudio_logo.png){ width=350px }\
+</center>
+
+<br>
+
+
+**Basic layout**
+
+When you first open RStudio, you will be greeted by three panels:
+
+  * The interactive R console (entire left)
+  * Environment/History (tabbed in upper right)
+  * Files/Plots/Packages/Help/Viewer (tabbed in lower right)
+
+<br>
+
+![RStudio layout](/Users/pandera/Rcourse/fig/01-rstudio.png)\
+
+<br>
+Once you open files, such as R scripts, an editor panel will also open
+in the top left.
+
+![RStudio layout with .R file open](/Users/pandera/Rcourse//fig/01-rstudio-script.png)\
+
+<br>
+
+## Work flow within RStudio
+There are two main ways one can work within RStudio.
+
+1. Test and play within the interactive R console then copy code into 
+a .R file to run later.
+     *  This works well when doing small tests and initially starting off.
+     *  It quickly becomes laborious
+
+2. Start writing in an .R file and use RStudio's short cut keys for the Run command
+to push the current line, selected lines or modified lines to the
+interactive R console.
+    * This is a great way to start; all your code is saved for later
+    * You will be able to run the file you create from within RStudio
+   or using R's `source()` function. 
+
+<br>
+
+---
+
+> #### Tip: Running segments of your code
+>
+> RStudio offers you great flexibility in running code from within the editor
+> window. There are buttons, menu choices, and keyboard shortcuts. To run the
+> current line, you can 
+>
+> 1. click on the `Run` button above the editor panel, or 
+> 2. select "Run Lines" from the "Code" menu, or 
+> 3. hit <kbd>Ctrl</kbd>+<kbd>Return</kbd> in Windows or Linux 
+> or <kbd>&#8984;</kbd>+<kbd>Return</kbd> on OS X.
+> (This shortcut can also be seen by hovering
+> the mouse over the button). To run a block of code, select it and then `Run`.
+> If you have modified a line of code within a block of code you have just run,
+> there is no need to reselect the section and `Run`, you can use the next button
+> along, `Re-run the previous region`. This will run the previous code block
+> including the modifications you have made. 
+
+---
+
+<br><br>
+
+## Introduction to R
+
+Much of your time in R will be spent in the R interactive
+console. This is where you will run all of your code, and can be a
+useful environment to try out ideas before adding them to an R script
+file. This console in RStudio is the same as the one you would get if
+you typed in `R` in your command-line environment.
+
+The first thing you will see in the R interactive session is a bunch
+of information, followed by a ">" and a blinking cursor. In many ways
+this is similar to the shell environment you learned about during the
+shell lessons: it operates on the same idea of a "Read, evaluate,
+print loop": you type in commands, R tries to execute them, and then
+returns a result.
+
+<br>
+
+## Using R as a calculator
+
+The simplest thing you could do with R is do arithmetic:
+
+```{r}
+1 + 100
+```
+
+And R will print out the answer, with a preceding "[1]". Don't worry about this
+for now, we'll explain that later. For now think of it as indicating output.
+
+Like bash, if you type in an incomplete command, R will wait for you to
+complete it:
+
+~~~
+> 1 +
+~~~
+
+
+~~~
++
+~~~
+
+
+Any time you hit return and the R session shows a "+" instead of a ">", it
+means it's waiting for you to complete the command. If you want to cancel
+a command you can simply hit "Esc" and RStudio will give you back the ">"
+prompt.
+
+<br> 
+
+---
+
+> #### Tip: Cancelling commands
+>
+> If you're using R from the commandline instead of from within RStudio,
+> you need to use <kbd>Ctrl</kbd>+<kbd>C</kbd> instead of <kbd>Esc</kbd>
+> to cancel the command. This applies to Mac users as well!
+>
+> Cancelling a command isn't only useful for killing incomplete commands:
+> you can also use it to tell R to stop running code (for example if it's
+> taking much longer than you expect), or to get rid of the code you're
+> currently writing.
+
+---
+
+<br><br>
+
+When using R as a calculator, the order of operations is the same as you
+would have learned back in school.
+
+From highest to lowest precedence:
+
+ * Parentheses: `(`, `)`
+ * Exponents: `^` or `**`
+ * Divide: `/`
+ * Multiply: `*`
+ * Add: `+`
+ * Subtract: `-`
+
+```{r}
+3 + 5 * 2
+```
+
+Use parentheses to group operations in order to force the order of
+evaluation if it differs from the default, or to make clear what you
+intend.
+
+```{r}
+(3 + 5) * 2
+```
+
+This can get unwieldy when not needed, but  clarifies your intentions.
+Remember that others may later read your code.
+
+```{r, eval=FALSE}
+(3 + (5 * (2 ^ 2))) # hard to read
+3 + 5 * 2 ^ 2       # clear, if you remember the rules
+3 + 5 * (2 ^ 2)     # if you forget some rules, this might help
+```
+
+
+The text after each line of code is called a
+"comment". Anything that follows after the hash (or octothorpe) symbol
+`#` is ignored by R when it executes code.
+
+Really small or large numbers get a scientific notation:
+
+```{r}
+2/10000
+```
+
+Which is shorthand for "multiplied by `10^XX`". So `2e-4`
+is shorthand for `2 * 10^(-4)`.
+
+You can write numbers in scientific notation too:
+
+```{r}
+5e3  # Note the lack of minus here
+```
+
+<br>
+
+
+## Mathematical functions
+
+
+R has many built in mathematical functions. To call a function,
+we simply type its name, followed by  open and closing parentheses.
+Anything we type inside the parentheses is called the function's
+arguments:
+
+```{r}
+sin(1)  # trigonometry functions
+```
+
+```{r}
+log(1)  # natural logarithm
+```
+
+```{r}
+log10(10) # base-10 logarithm
+```
+
+```{r}
+exp(0.5) # e^(1/2)
+```
+
+Don't worry about trying to remember every function in R. You
+can simply look them up on Google, or if you can remember the
+start of the function's name, use the tab completion in RStudio.
+
+This is one advantage that RStudio has over R on its own, it
+has auto-completion abilities that allow you to more easily
+look up functions, their arguments, and the values that they
+take.
+
+Typing a `?` before the name of a command will open the help page
+for that command. As well as providing a detailed description of
+the command and how it works, scrolling to the bottom of the
+help page will usually show a collection of code examples which
+illustrate command usage. We'll go through an example later.
+
+<br>
+
+## Comparing things
+
+We can also do comparison in R:
+
+```{r}
+1 == 1  # equality (note two equals signs, read as "is equal to")
+```
+
+```{r}
+1 != 2  # inequality (read as "is not equal to")
+```
+
+```{r}
+1 < 2  # less than
+```
+
+```{r}
+1 <= 1  # less than or equal to
+```
+
+```{r}
+1 > 0  # greater than
+```
+
+```{r}
+1 >= -9 # greater than or equal to
+```
+
+<br>
+
+---
+
+> #### Tip: Comparing Numbers
+>
+> A word of warning about comparing numbers: you should
+> never use `==` to compare two numbers unless they are
+> integers (a data type which can specifically represent
+> only whole numbers).
+>
+> Computers may only represent decimal numbers with a
+> certain degree of precision, so two numbers which look
+> the same when printed out by R, may actually have
+> different underlying representations and therefore be
+> different by a small margin of error (called Machine
+> numeric tolerance).
+>
+> Instead you should use the `all.equal` function.
+>
+> Further reading: [http://floating-point-gui.de/](http://floating-point-gui.de/)
+>
+
+---
+
+<br><br>
+
+## Variables and assignment
+
+We can store values in variables using the assignment operator `<-`, like this:
+
+```{r}
+x <- 1/40
+```
+
+Notice that assignment does not print a value. Instead, we stored it for later
+in something called a **variable**. `x` now contains the **value** `0.025`:
+
+```{r}
+x
+```
+
+More precisely, the stored value is a *decimal approximation* of
+this fraction called a [floating point number](http://en.wikipedia.org/wiki/Floating_point).
+
+Look for the `Environment` tab in one of the panes of RStudio, and you will see that `x` and its value
+have appeared. Our variable `x` can be used in place of a number in any calculation that expects a number:
+
+```{r}
+log(x)
+```
+
+Notice also that variables can be reassigned:
+
+```{r}
+x <- 100
+```
+
+`x` used to contain the value 0.025 and and now it has the value 100.
+
+Assignment values can contain the variable being assigned to:
+
+```{r}
+x <- x + 1 #notice how RStudio updates its description of x on the top right tab
+y <- x * 2
+```
+
+The right hand side of the assignment can be any valid R expression.
+The right hand side is *fully evaluated* before the assignment occurs.
+
+Variable names can contain letters, numbers, underscores and periods. They
+cannot start with a number nor contain spaces at all. Different people use
+different conventions for long variable names, these include
+
+  * periods.between.words
+  * underscores\_between_words
+  * camelCaseToSeparateWords
+
+What you use is up to you, but **be consistent**.
+
+It is also possible to use the `=` operator for assignment:
+
+```{r}
+x = 1/40
+```
+
+But this is much less common among R users.  The most important thing is to
+**be consistent** with the operator you use. There are occasionally places
+where it is less confusing to use `<-` than `=`, and it is the most common
+symbol used in the community. So the recommendation is to use `<-`.
+
+
+---
+
+<br>
+
+## R Packages
+
+It is possible to add functions to R by writing a package, or by
+obtaining a package written by someone else. As of this writing, there
+are over 10,000 packages available on CRAN (the comprehensive R archive
+network). R and RStudio have functionality for managing packages:
+
+* You can see what packages are installed by typing
+  `installed.packages()`
+* You can install packages by typing `install.packages("packagename")`,
+  where `packagename` is the package name, in quotes.
+* You can update installed packages by typing `update.packages()`
+* You can remove a package with `remove.packages("packagename")`
+* You can make a package available for use with `library(packagename)`
+
+
+
+> ### Challenge 
+>
+> Install the following packages: `ggplot2`, `plyr`, `gapminder`
+>
+> > #### Solution to challenge
+> >
+> > We can use the `install.packages()` command to install the required packages.
+> > ```{r ch5-sol, eval=FALSE}
+> > install.packages("ggplot2")
+> > install.packages("plyr")
+> > install.packages("gapminder")
+> >```
+
+
+---
+
+<br>
+
+## Reading Help files
+
+R, and every package, provide help files for functions. The general syntax to search for help on any
+function, "function_name", from a specific function that is in a package loaded into your
+namespace (your interactive R session):
+
+```{r, eval=FALSE}
+?function_name
+help(function_name)
+```
+
+This will load up a help page in RStudio (or as plain text in R by itself).
+
+Each help page is broken down into sections:
+
+ - Description: An extended description of what the function does.
+ - Usage: The arguments of the function and their default values.
+ - Arguments: An explanation of the data each argument is expecting.
+ - Details: Any important details to be aware of.
+ - Value: The data the function returns.
+ - See Also: Any related functions you might find useful.
+ - Examples: Some examples for how to use the function.
+
+Different functions might have different sections, but these are the main ones you should be aware of.
+
+<br>
+
+---
+
+> #### Tip: Reading help files
+>
+> One of the most daunting aspects of R is the large number of functions
+> available. It would be prohibitive, if not impossible to remember the
+> correct usage for every function you use. Luckily, the help files
+> mean you don't have to!
+
+
+---
+
+<br>
+
+## Special Operators
+
+To seek help on special operators, use quotes:
+
+```{r, eval=FALSE}
+?"<-"
+```
+
+## Getting help on packages
+
+Many packages come with "vignettes": tutorials and extended example documentation.
+Without any arguments, `vignette()` will list all vignettes for all installed packages;
+`vignette(package="package-name")` will list all available vignettes for
+`package-name`, and `vignette("vignette-name")` will open the specified vignette.
+
+If a package doesn't have any vignettes, you can usually find help by typing
+`help("package-name")`.
+
+## When you kind of remember the function
+
+If you're not sure what package a function is in, or how it's specifically spelled you can do a fuzzy search:
+
+```{r, eval=FALSE}
+??function_name
+```
+
+## When you have no idea where to begin
+
+If you don't know what function or package you need to use
+[CRAN Task Views](http://cran.at.r-project.org/web/views)
+is a specially maintained list of packages grouped into
+fields. This can be a good starting point.
+
+<br>
+
+___
+
+**keypoints:**
+
+- Use RStudio to write and run R programs.
+- R has the usual arithmetic operators and mathematical functions.
+- Use `<-` to assign values to variables.
+- Use `?` to seek help.
+- Use `install.packages()` to install packages (libraries).
+
+<br><br><br>
