@@ -38,7 +38,7 @@ statistics and general data analysis and visualization capabilities.
 
 <br><br>
 <center>
-<img src="/Users/pandera//Rcourse/fig/why_R.png" alt="R logo" width="650" />  
+<img src="/fig/why_R.png" alt="R logo" width="650" />  
 </center>
 
 ------------------------------------------------------------------------
@@ -59,7 +59,7 @@ well as some best practices for organizing code for scientific projects
 that will make your life easier. <br><br>
 
 <center>
-<img src="/Users/pandera/Rcourse/fig/rstudio_logo.png" alt="Rstudio logo" width="350" />  
+<img src="/fig/rstudio_logo.png" alt="Rstudio logo" width="350" />  
 </center>
 <br>
 
@@ -73,12 +73,12 @@ When you first open RStudio, you will be greeted by three panels:
 
 <br>
 
-![RStudio layout](/Users/pandera/Rcourse/fig/01-rstudio.png)  
+![RStudio layout](/fig/01-rstudio.png)  
 <br> Once you open files, such as R scripts, an editor panel will also
 open in the top left.
 
 ![RStudio layout with .R file
-open](/Users/pandera/Rcourse//fig/01-rstudio-script.png)  
+open](/fig/01-rstudio-script.png)  
 <br>
 
 Work flow within RStudio
