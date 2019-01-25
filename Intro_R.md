@@ -16,7 +16,7 @@ Before Starting The Course
 --------------------------
 
 Please ensure you have the latest version of R and RStudio installed on
-your machine. This is important, as some packages used in the workshop
+your machine. This is important, as some packages used in the course
 may not install correctly (or at all) if R is not up to date.
 
 [Download and install the latest version of R
@@ -133,11 +133,9 @@ RStudio is the same as the one you would get if you typed in `R` in your
 command-line environment.
 
 The first thing you will see in the R interactive session is a bunch of
-information, followed by a "&gt;" and a blinking cursor. In many ways
-this is similar to the shell environment you learned about during the
-shell lessons: it operates on the same idea of a "Read, evaluate, print
-loop": you type in commands, R tries to execute them, and then returns a
-result.
+information, followed by a "&gt;" and a blinking cursor. It operates on 
+the idea of a "Read, evaluate, printloop": you type in commands, R 
+tries to execute them, and then returns a result.
 
 <br>
 
