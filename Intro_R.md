@@ -152,7 +152,7 @@ And R will print out the answer, with a preceding "\[1\]". Don't worry
 about this for now, we'll explain that later. For now think of it as
 indicating output.
 
-Like bash, if you type in an incomplete command, R will wait for you to
+If you type in an incomplete command, R will wait for you to
 complete it:
 
     > 1 +
