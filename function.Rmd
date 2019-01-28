@@ -1,0 +1,95 @@
+---
+title: "Function"
+author: "Xingmin Aaron Zhang"
+date: "1/27/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Goal
+- Learn when to use function and why
+- Learn how to define functions
+- Learn that functions are also objects and can be passed around as a variable
+- Learn to use *apply* to apply functions on lists of data
+
+# When to use functions
+
+Whenever you need to repeat a section of code more than twice.
+
+But also be gentle--do not try to create a function for every small task to perform.
+
+# Why to use functions
+
+- Reduce replications
+- Easiser to change and debug
+
+# How to define a function
+
+```
+f <- function(arg1, arg2, arg3, ...) {
+    # do something interesting
+    # return the value
+}
+```
+
+The return value is the last expression in the function body.
+
+## example 1
+
+Write a function to convert fahrenheit to celcius.
+Hint: 
+c = (f - 32) * 5/9
+```{r}
+f2c <- function(x) {
+    (x - 32) * 5 / 9
+}
+
+f2c(32)
+f2c(68)
+f2c(100)
+```
+
+## named arguments
+Named arguments are useful when you have a long list of arguments and you want to use the defaults for everything except for a few 
+```{r}
+fruit_expense <- function(apple, orange, price_apple = 0.75, price_orange = 0.99) {
+    apple_expense <- apple * price_apple
+    orange_expense <- orange * price_orange
+    apple_expense + orange_expense
+}
+
+fruit_expense(3, 4)
+```
+
+## argument matching
+You you call a function with multiple arguments, R matches them by 
+1. check for exact match for a named argument;
+2. check for a partial match;
+3. check for a positional match.
+
+```{r}
+fruit_expense(o = 3, a = 4)
+```
+
+## scoping
+
+Consider the following function
+```{r}
+f <- function(x, y) {
+    x ^ 2 + y / z
+}
+```
+
+This function has 2 formal arguments, x and y. In the body of the function, there is another symbol z. In this case, z is called a *free viariable*. 
+
+How does R find the value of z? 
+R first searches the body of the function. If R cannot find the binding, it searches the global environment (* search for environment for yourself)
+
+## passing functions as arguments
+
+
+
+
