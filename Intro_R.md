@@ -16,8 +16,8 @@ Before Starting The Course
 --------------------------
 
 Please ensure you have the latest version of R and RStudio installed on
-your machine. This is important, as some packages used in the course
-may not install correctly (or at all) if R is not up to date.
+your machine. This is important, as some packages used in the course may
+not install correctly (or at all) if R is not up to date.
 
 [Download and install the latest version of R
 here](https://www.r-project.org/) [Download and install RStudio
@@ -77,8 +77,7 @@ When you first open RStudio, you will be greeted by three panels:
 <br> Once you open files, such as R scripts, an editor panel will also
 open in the top left.
 
-![RStudio layout with .R file
-open](/fig/01-rstudio-script.png)  
+![RStudio layout with .R file open](/fig/01-rstudio-script.png)  
 <br>
 
 Work flow within RStudio
@@ -133,8 +132,8 @@ RStudio is the same as the one you would get if you typed in `R` in your
 command-line environment.
 
 The first thing you will see in the R interactive session is a bunch of
-information, followed by a "&gt;" and a blinking cursor. It operates on 
-the idea of a "Read, evaluate, printloop": you type in commands, R 
+information, followed by a "&gt;" and a blinking cursor. It operates on
+the idea of a "Read, evaluate, print loop": you type in commands, R
 tries to execute them, and then returns a result.
 
 <br>
@@ -152,8 +151,8 @@ And R will print out the answer, with a preceding "\[1\]". Don't worry
 about this for now, we'll explain that later. For now think of it as
 indicating output.
 
-If you type in an incomplete command, R will wait for you to
-complete it:
+If you type in an incomplete command, R will wait for you to complete
+it:
 
     > 1 +
 
@@ -391,6 +390,8 @@ places where it is less confusing to use `<-` than `=`, and it is the
 most common symbol used in the community. So the recommendation is to
 use `<-`.
 
+<br>
+
 > Challenge 1
 > -----------
 >
@@ -404,7 +405,6 @@ use `<-`.
 >     min-length
 >     2widths
 >     celsius2kelvin
-
 
 <br>
 
@@ -448,7 +448,7 @@ network). R and RStudio have functionality for managing packages:
 -   You can remove a package with `remove.packages("packagename")`
 -   You can make a package available for use with `library(packagename)`
 
-> ### Challenge
+> ### Challenge 4
 >
 > Install the following packages: `ggplot2`, `plyr`, `gapminder`
 >
@@ -544,6 +544,50 @@ list of packages grouped into fields. This can be a good starting point.
 <br>
 
 ------------------------------------------------------------------------
+
+Get or Set Working Directory
+----------------------------
+
+    getwd()  # print the current working directory - cwd
+
+    ## [1] "/Users/pandera/Rcourse"
+
+    setwd("/Users/pandera/Rcourse/MEDS6498") # change to mydirectory
+    list.files()  #list all files and folders in current directory
+
+    ## [1] "gapminder_data.csv"
+
+Read a File
+-----------
+
+Files can be downloaded directly from the Internet into a local folder
+of your choice onto your computer using the download.file function. The
+read.csv function can then be executed to read the downloaded file from
+the download location, for example,
+
+    download.file("https://raw.githubusercontent.com/swcarpentry/r-novice-gapminder/gh-pages/_episodes_rmd/data/gapminder_data.csv", destfile = "gapminder_data.csv")
+    gapminder <- read.csv("gapminder_data.csv")
+    head(gapminder)
+
+    ##       country year      pop continent lifeExp gdpPercap
+    ## 1 Afghanistan 1952  8425333      Asia  28.801  779.4453
+    ## 2 Afghanistan 1957  9240934      Asia  30.332  820.8530
+    ## 3 Afghanistan 1962 10267083      Asia  31.997  853.1007
+    ## 4 Afghanistan 1967 11537966      Asia  34.020  836.1971
+    ## 5 Afghanistan 1972 13079460      Asia  36.088  739.9811
+    ## 6 Afghanistan 1977 14880372      Asia  38.438  786.1134
+
+Check out the first few lines:
+
+    head(gapminder)
+
+    ##       country year      pop continent lifeExp gdpPercap
+    ## 1 Afghanistan 1952  8425333      Asia  28.801  779.4453
+    ## 2 Afghanistan 1957  9240934      Asia  30.332  820.8530
+    ## 3 Afghanistan 1962 10267083      Asia  31.997  853.1007
+    ## 4 Afghanistan 1967 11537966      Asia  34.020  836.1971
+    ## 5 Afghanistan 1972 13079460      Asia  36.088  739.9811
+    ## 6 Afghanistan 1977 14880372      Asia  38.438  786.1134
 
 **keypoints:**
 
