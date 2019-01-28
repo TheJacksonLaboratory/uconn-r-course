@@ -547,13 +547,15 @@ list of packages grouped into fields. This can be a good starting point.
 
 Get or Set Working Directory
 ----------------------------
-
-    getwd()  # print the current working directory - cwd
+    # print the current working directory - cwd
+    getwd()  
 
     ## [1] "/Users/pandera/Rcourse"
-
-    setwd("/Users/pandera/Rcourse/MEDS6498") # change to mydirectory
-    list.files()  #list all files and folders in current directory
+    # change to mydirectory
+    setwd("/Users/pandera/Rcourse/MEDS6498")
+    
+    #list all files and folders in current directory
+    list.files()  
 
     ## [1] "gapminder_data.csv"
 
@@ -567,7 +569,7 @@ the download location, for example,
 
     download.file("https://raw.githubusercontent.com/swcarpentry/r-novice-gapminder/gh-pages/_episodes_rmd/data/gapminder_data.csv", destfile = "gapminder_data.csv")
     gapminder <- read.csv("gapminder_data.csv")
-    head(gapminder)
+    
 
     ##       country year      pop continent lifeExp gdpPercap
     ## 1 Afghanistan 1952  8425333      Asia  28.801  779.4453
