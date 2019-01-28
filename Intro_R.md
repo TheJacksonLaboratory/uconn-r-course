@@ -391,6 +391,20 @@ places where it is less confusing to use `<-` than `=`, and it is the
 most common symbol used in the community. So the recommendation is to
 use `<-`.
 
+> Challenge 1
+> -----------
+>
+> Which of the following are valid R variable names?
+>
+>     min_height
+>     max.height
+>     _age
+>     .mass
+>     MaxLength
+>     min-length
+>     2widths
+>     celsius2kelvin
+
 ------------------------------------------------------------------------
 
 <br>
