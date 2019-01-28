@@ -551,10 +551,10 @@ Get or Set Working Directory
     # print the current working directory - cwd
     getwd()  
 
-    ## [1] "/Users/pandera/Rcourse"
+    ## [1] "/Users/pandera/MEDS6498"
 
     # change to mydirectory
-    setwd("/Users/pandera/Rcourse/MEDS6498") 
+    setwd("/Users/pandera/MEDS6498/data") 
 
     #list all files and folders in current directory
     list.files()  
