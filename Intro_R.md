@@ -405,6 +405,28 @@ use `<-`.
 >     2widths
 >     celsius2kelvin
 
+
+<br>
+
+> Challenge 2
+> -----------
+>
+> What will be the value of each variable after each statement in the
+> following program?
+>
+>     mass <- 47.5
+>     age <- 122
+>     mass <- mass * 2.3
+>     age <- age - 20
+
+<br>
+
+> Challenge 3
+> -----------
+>
+> Run the code from the previous challenge, and write a command to
+> compare mass to age. Is mass larger than age?
+
 ------------------------------------------------------------------------
 
 <br>
