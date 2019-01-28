@@ -551,10 +551,10 @@ Get or Set Working Directory
     # print the current working directory - cwd
     getwd()  
 
-    ## [1] "/Users/pandera/MEDS6498"
+    ## [1] "/Users/pandera/"
 
     # change to mydirectory
-    setwd("/Users/pandera/MEDS6498/data") 
+    setwd("/Users/pandera/MEDS6498") 
 
     #list all files and folders in current directory
     list.files()  
@@ -569,7 +569,7 @@ of your choice onto your computer using the download.file function. The
 read.csv function can then be executed to read the downloaded file from
 the download location, for example,
 
-    download.file("https://raw.githubusercontent.com/TheJacksonLaboratory/uconn-r-course/master/surveys.csv", destfile = "survey_data.csv")
+    download.file("https://raw.githubusercontent.com/TheJacksonLaboratory/uconn-r-course/master/surveys.csv", destfile = "data/survey_data.csv")
     surveys <- read.csv("surveys.csv")
 
 Check out the first few lines:
