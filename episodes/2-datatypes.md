@@ -3,12 +3,6 @@
 Sandeep Namburi
 2/2/2019
 
-``` r
-getwd()
-```
-
-    ## [1] "/Users/snambur/Desktop/projects/uconn-jax-course-2019/uconn-r-course"
-
 ------------------------------------------------------------------------
 
 The materials used in this lesson are adapted from work from both members of the teaching team at the [Harvard Chan Bioinformatics Core (HBC)](http://bioinformatics.sph.harvard.edu/) and Data Carpentry (<http://datacarpentry.org/>).
