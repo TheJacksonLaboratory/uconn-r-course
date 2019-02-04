@@ -1,7 +1,7 @@
 datastructures-vectors
 ================
 Sandeep Namburi
-2/2/2019
+February 04, 2019
 
 ------------------------------------------------------------------------
 
@@ -355,6 +355,25 @@ typeof(sequence_example)
 ```
 
     ## [1] "integer"
+
+``` r
+summary(sequence_example)
+```
+
+    ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+    ##    1.00    3.25    5.50    5.50    7.75   10.00
+
+``` r
+mean(sequence_example)
+```
+
+    ## [1] 5.5
+
+``` r
+median(sequence_example)
+```
+
+    ## [1] 5.5
 
 Finally, you can give names to elements in your vector:
 

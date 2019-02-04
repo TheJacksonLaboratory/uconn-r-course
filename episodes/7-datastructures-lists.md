@@ -1,7 +1,7 @@
 7-datastructures-lists
 ================
 Sandeep Namburi
-2/3/2019
+February 04, 2019
 
 ### Lists
 

@@ -1,7 +1,7 @@
 4-datastructures-factors
 ================
 Sandeep Namburi
-2/3/2019
+February 04, 2019
 
 ------------------------------------------------------------------------
 
@@ -150,7 +150,7 @@ f<-as.numeric(f)
 Lets load our example data:
 
 ``` r
-dat<-read.csv(file='surveys.csv', stringsAsFactors=TRUE)
+data<-read.csv(file='surveys.csv', stringsAsFactors=TRUE)
 ```
 
 Tip
@@ -159,7 +159,7 @@ Tip
 > `stringsAsFactors=TRUE` is the default behaviour for R. We could leave this argument out. It is included here for clarity.
 
 ``` r
-str(dat)
+str(data)
 ```
 
     ## 'data.frame':    35549 obs. of  9 variables:
@@ -176,7 +176,7 @@ str(dat)
 Notice the first 3 columns have been converted to factors. These values were text in the data file so R automatically interpreted them as catagorical variables.
 
 ``` r
-summary(dat)
+summary(data)
 ```
 
     ##    record_id         month             day             year     
