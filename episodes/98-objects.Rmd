@@ -13,9 +13,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## General Object Concepts
 
-In programming, *objects* are code/data structures that provide a level of abstraction for building your program. Programming objects are often used to model real world objects, like people or automobiles, but can also represent  abstract concepts, like scientific results. An object can contain various types of data, called *attributes*, and have associated functions, called *methods*. 
+In programming, **objects** are code/data structures that provide a level of abstraction for building your program. Programming objects are often used to model real world objects, like people or automobiles, but can also represent  abstract concepts, like scientific results. An object can contain various types of data, called **attributes**, and have associated functions, called **methods**. 
 
-A *class* is a category of objects that share attributes (although not necessarily the same attribute values) and methods. An object is an *instance* of a class.
+A **class** is a category of objects that share attributes (although not necessarily the same attribute values) and methods. An object is an **instance** of a class.
 
 For example you might have a class that is 'automobile', which has the attributes 'make', 'model' and 'engine_type' as well as the methods 'start' and 'rev_engine'.
 
@@ -39,7 +39,7 @@ Then you might have two objects:
  
 Note how the two instances have the same class and the same attribute keys, but have different values for the attributes. Also note that they both have the method called 'start', which does the same thing in both instances, and 'rev_engine', whose behavior is different between the two objects (undoubtedly because of the difference in the 'engine_type' attribute!).
 
-There are other interesting and important object oriented programming concepts that you might want to explore, such as *class inheritance*, but we will not get into those concepts here.
+There are other interesting and important object oriented programming concepts that you might want to explore, such as **class inheritance**, but we will not get into those concepts here.
 
 ## Objects in R
 
@@ -52,11 +52,107 @@ Objects are a bit confusing in R because there are multiple different object sys
 
 ### S3 Objects
 
+S3 is the original object system in R, and it is very simple. S3 objects are basically lists, and their attributes are the named elements of the list. For example, we can create an automobile object by first creating a named list:
 
 
+```{r auto}
+car <- list(make = "Ford", model="Fusion", engine_type = 'Hybrid')
+car
+```
 
-```{r cars}
-summary(cars)
+Now we can turn that `car` list into an object of class `automobile` with the `class()` function like so:
+
+```{r auto2}
+class(car) <- "automobile"
+car
+```
+You can see the class now shows up. You can also check the class of an object with the `class()` function:
+
+```{r class}
+class(car)
+```
+
+We can create a second instance called `car2`:
+
+```{r auto3}
+car2 <- list(make = "Bugatti", model="Veyron", engine_type = 'V16')
+class(car2) <- 'automobile'
+car2
+```
+
+And that's it! This system is very informal, and one has to be very careful when using it. For example, you could create a list that is very unlike a car and assign it the `automobile` class:
+
+```{r dog}
+dog <- list(legs = 4, coat_color = 'brown', face = 'cute')
+class(dog) <- 'automobile'
+dog
+```
+
+This could obviously cause problems, and may come as a surprise to programmers experienced with other programing languages that have more formal object systems. But this is the way the `base` and `stats` packages handle objects, so it is something we must deal with.
+
+You'll notice that we didn't give our objects any methods. This is because, in S3, class methods don't belong to the class (after all, there is no true class definition). Instead, methods are functions that 'belong' to a special type of parent function called a **generic function**, (or 'generic', in R lingo). To help explore how generics work, lets go back to the `surveys.csv` data:
+
+```{r surveys}
+data <- read.csv('../surveys.csv') #your path may differ here!
+class(data)
+```
+
+Now lets look what happens when we use the `print()` function on a few different objects.
+
+```{r print}
+print('hello world')
+print(car)
+data_small <- data[1:10,] #subsetting to keep things tidy and readable
+print(data_small) 
+```
+
+So you can use the same `print()` function on a regular string, on our `car` automobile object, and on our `data_small` data.frame object. But you might notice that `data_small` prints out in a nice way, whereas `car` just looks like the same old list we started with.
+
+Now what does print do when we remove the `object`ness of `car` and `data_small` with `unclass()`?
+
+```{r unclass_print}
+car <- unclass(car)
+print(car)
+data_small <- unclass(data_small)
+print(data_small)
+```
+
+`car` didn't change at all, except for losing its class attribute, but now `data` is printing like a list! What happened?
+
+`print()` is a generic function whose job is to find the appropriate method to use on an object. The `data.frame` class indeed has a `print.data.frame()` method that 'belongs' to `print()`. This can be explored with the `methods()` function:
+
+```{r methods}
+methods(print)
+methods(class='automobile')
+methods(class='data.frame')
+```
+
+From this we can see that `print()` works generically with the `automobile` class because we have not defined a `print.automobile()` method. When you use `print()` with a `data.frame`, `print.data.frame()` is used. Also, we see that `data.frame` has many associated methods, like `merge()`, `Summary()`, and `plot()` (actually, the methods would be `merge.data.frame()`, `Summary.data.frame()`, and `plot.data.frame()`).
+
+We could create a `print.automobile()` method like this:
+
+
+```{r create_method}
+
+#first define a function
+print_car <- function(x, ...){  #use ?print to match the arguments to the generic!
+  print('Vroooooom!')
+}
+
+#now assign the function to the appropriate method
+print.automobile <- print_car
+print(car2)
+```
+
+Keep in mind that we can easily change the class of any object:
+
+```{r class_swap}
+car2 <- unclass(car2)
+print(car2)
+class(car2) <- 'data.frame' #this doesn't look great, for obvious reasons!
+print(car2)
+class(car2) <- 'automobile'
+print(car2)
 ```
 
 ## Including Plots
