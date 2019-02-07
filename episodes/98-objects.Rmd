@@ -1,0 +1,74 @@
+---
+title: "98-Objects"
+author: "David Mellert"
+date: "2/7/2019"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## General Object Concepts
+
+In programming, *objects* are code/data structures that provide a level of abstraction for building your program. Programming objects are often used to model real world objects, like people or automobiles, but can also represent  abstract concepts, like scientific results. An object can contain various types of data, called *attributes*, and have associated functions, called *methods*. 
+
+A *class* is a category of objects that share attributes (although not necessarily the same attribute values) and methods. An object is an *instance* of a class.
+
+For example you might have a class that is 'automobile', which has the attributes 'make', 'model' and 'engine_type' as well as the methods 'start' and 'rev_engine'.
+
+Then you might have two objects:
+
+1) Instance #1:
+ + class: automobile
+ + make: Ford
+ + model: Fusion
+ + engine_type: Hybrid
+ + start( ): Engine turns on
+ + rev_engine( ): Makes a sound
+
+2) Instance #2:
+ + class: automobile
+ + make: Bugatti
+ + model: Veyron
+ + engine_type: V16
+ + start( ): Engine turns on
+ + rev_engine( ): Makes a **much** cooler sound
+ 
+Note how the two instances have the same class and the same attribute keys, but have different values for the attributes. Also note that they both have the method called 'start', which does the same thing in both instances, and 'rev_engine', whose behavior is different between the two objects (undoubtedly because of the difference in the 'engine_type' attribute!).
+
+There are other interesting and important object oriented programming concepts that you might want to explore, such as *class inheritance*, but we will not get into those concepts here.
+
+## Objects in R
+
+First, we should mention that Hadley Wickham has an excellent [chapter on object oriented programming in R][oochapter] in his book [Advanced R][advancedr], which you are encouraged to check out! We will use some code examples from that chapter in this lesson. You might also refer to an older version of the same website [here][oofieldguide].
+
+Objects are a bit confusing in R because there are multiple different object systems that all work a bit differently. These different systems can be broadly categorized into:
+
+1) S3/S4 -- These are the older object systems in R and are used throughout "Base R" and Bioconductor.
+2) Reference Classes -- Reference Classes (RC) are a more recent development in R. RC objects work fairly similarly to how objects work in other languages (e.g., Python), but you will not see these nearly as often as S3/S4 objects, so they will not be covered in this lesson.
+
+### S3 Objects
+
+
+
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+[advancedr]: https://adv-r.hadley.nz/
+[oochapter]: https://adv-r.hadley.nz/oo.html
+[oofieldguide]: http://adv-r.had.co.nz/OO-essentials.html
