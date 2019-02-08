@@ -1,0 +1,37 @@
+---
+title: "99-Plotting"
+author: "David Mellert"
+date: "2/8/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Plotting in R
+
+One of the advantages of working with R is the ability to easily create amazing plots. Plots are usually created using base R or special graphics-related packages, with [ggplot2][ggplot] being the most popular. For the sake of simplicity, this lesson will focus on base plotting, but we will also show you an example of ggplot2, because you will encounter it often.
+
+## The plot() function
+
+The generic function `plot()` works like magic, but is fairly easy to understand if you are familiar with S3/S4 objects. Lets go through some examples
+
+```{r colors}
+colors <- as.factor(c('red', 'blue', 'green'))
+values <- c(123,80,100)
+plot(colors,values)
+
+data <- read.csv('../surveys.csv') #your path may differ here!
+hf_histogram <- hist(data$hindfoot_length, plot=FALSE)
+plot(hf_histogram)
+
+plot(data$hindfoot_length, data$weight)
+```
+## Other base plotting functions
+
+## ggplot2
+
+
+
+[ggplot][https://ggplot2.tidyverse.org/index.html]
