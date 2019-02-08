@@ -5,6 +5,7 @@ date: "2/7/2019"
 output:
   html_document: default
   pdf_document: default
+  word_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -50,7 +51,7 @@ Objects are a bit confusing in R because there are multiple different object sys
 1) S3/S4 -- These are the older object systems in R and are used throughout "Base R" and Bioconductor.
 2) Reference Classes -- Reference Classes (RC) are a more recent development in R. RC objects work fairly similarly to how objects work in other languages (e.g., Python), but you will not see these nearly as often as S3/S4 objects, so they will not be covered in this lesson.
 
-### S3 Objects
+## S3 Objects
 
 S3 is the original object system in R, and it is very simple. S3 objects are basically lists, and their attributes are the named elements of the list. For example, we can create an automobile object by first creating a named list:
 
@@ -72,6 +73,18 @@ You can see the class now shows up. You can also check the class of an object wi
 class(car)
 ```
 
+Nonetheless, `car` is still a list:
+
+```{r list}
+typeof(car)
+```
+
+As with any named list, you can use `$` to access attributes:
+
+```{r access attributes}
+car$make
+```
+
 We can create a second instance called `car2`:
 
 ```{r auto3}
@@ -88,16 +101,16 @@ class(dog) <- 'automobile'
 dog
 ```
 
-This could obviously cause problems, and may come as a surprise to programmers experienced with other programing languages that have more formal object systems. But this is the way the `base` and `stats` packages handle objects, so it is something we must deal with.
+This could obviously cause problems, and may come as a surprise to programmers experienced with other languages that have more formal object systems. But this is the way the `base` and `stats` packages handle objects, so it is something we must deal with.
 
-You'll notice that we didn't give our objects any methods. This is because, in S3, class methods don't belong to the class (after all, there is no true class definition). Instead, methods are functions that 'belong' to a special type of parent function called a **generic function**, (or 'generic', in R lingo). To help explore how generics work, lets go back to the `surveys.csv` data:
+You'll notice that we didn't give our objects any methods. This is because, in S3, class methods don't 'belong' to the class (there is no true class definition for S3, anyway). Instead, methods are functions that belong to a special type of parent function called a **generic function**, (or 'generic', in R lingo). To help explore how generics work, lets go back to the `surveys.csv` data:
 
 ```{r surveys}
 data <- read.csv('../surveys.csv') #your path may differ here!
 class(data)
 ```
 
-Now lets look what happens when we use the `print()` function on a few different objects.
+Now lets look what happens when we use the `print()` function on a few things.
 
 ```{r print}
 print('hello world')
@@ -155,15 +168,23 @@ class(car2) <- 'automobile'
 print(car2)
 ```
 
-## Including Plots
+### Exercise 1
 
-You can also embed plots, for example:
+First, run the following code. This is to create a histogram of the hindfoot_length vector in our data.frame:
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r histo_class}
+hf_histogram <- hist(data$hindfoot_length, plot=FALSE) #creates a plot by default, turn it off for now
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+* What is the type of `hf_histogram`? The class?
+
+* What are the attributes of `hf_histogram`?
+
+* What methods are specific to `hf_histogram`'s class? What are the generics for those methods?
+
+## S4 Objects
+
+
 
 [advancedr]: https://adv-r.hadley.nz/
 [oochapter]: https://adv-r.hadley.nz/oo.html
