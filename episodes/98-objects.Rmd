@@ -44,7 +44,7 @@ There are other interesting and important object oriented programming concepts t
 
 ## Objects in R
 
-First, we should mention that Hadley Wickham has an excellent [chapter on object oriented programming in R][oochapter] in his book [Advanced R][advancedr], which you are encouraged to check out! We will use some code examples from that chapter in this lesson. You might also refer to an older version of the same website [here][oofieldguide].
+First, we should mention that Hadley Wickham has an excellent [chapter on object oriented programming in R][oochapter] in his book [Advanced R][advancedr], which you are encouraged to check out! You might also refer to an older version of the same website [here][oofieldguide].
 
 Objects are a bit confusing in R because there are multiple different object systems that all work a bit differently. These different systems can be broadly categorized into:
 
@@ -57,14 +57,14 @@ S3 is the original object system in R, and it is very simple. S3 objects are bas
 
 
 ```{r auto}
-car <- list(make = "Ford", model="Fusion", engine_type = 'Hybrid')
+car <- list(make = 'Ford', model='Fusion', engine_type = 'Hybrid')
 car
 ```
 
 Now we can turn that `car` list into an object of class `automobile` with the `class()` function like so:
 
 ```{r auto2}
-class(car) <- "automobile"
+class(car) <- 'automobile'
 car
 ```
 You can see the class now shows up. You can also check the class of an object with the `class()` function:
@@ -88,7 +88,7 @@ car$make
 We can create a second instance called `car2`:
 
 ```{r auto3}
-car2 <- list(make = "Bugatti", model="Veyron", engine_type = 'V16')
+car2 <- list(make = 'Bugatti', model='Veyron', engine_type = 'V16')
 class(car2) <- 'automobile'
 car2
 ```
@@ -130,7 +130,7 @@ data_small <- unclass(data_small)
 print(data_small)
 ```
 
-`car` didn't change at all, except for losing its class attribute, but now `data` is printing like a list! What happened?
+`car` didn't change at all, except for losing its class attribute, but now `data_small` is printing like a list! What happened?
 
 `print()` is a generic function whose job is to find the appropriate method to use on an object. The `data.frame` class indeed has a `print.data.frame()` method that 'belongs' to `print()`. This can be explored with the `methods()` function:
 
@@ -148,8 +148,8 @@ We could create a `print.automobile()` method like this:
 ```{r create_method}
 
 #first define a function
-print_car <- function(x, ...){  #use ?print to match the arguments to the generic!
-  print('Vroooooom!')
+print_car <- function(x){  #function has to take at least one argument, even if you don't use it
+  paste('Vroooooom!')
 }
 
 #now assign the function to the appropriate method
@@ -170,7 +170,7 @@ print(car2)
 
 ### Exercise 1
 
-First, run the following code. This is to create a histogram of the hindfoot_length vector in our data.frame:
+First, run the following line of code. This is to create a histogram of the hindfoot_length vector in our data.frame:
 
 ```{r histo_class}
 hf_histogram <- hist(data$hindfoot_length, plot=FALSE) #creates a plot by default, turn it off for now
@@ -184,7 +184,58 @@ hf_histogram <- hist(data$hindfoot_length, plot=FALSE) #creates a plot by defaul
 
 ## S4 Objects
 
+The S4 object system is very similar to S3 in that the underlying data structure is a named list, where each named item becomes an attribute, and methods belong to generic functions. However S4 differs from S3 in that it has a formal system for class definitions, and attributes (or 'slots', in S4 terminology) are accessed with `@` instead of `$`. You also need to use a function to create instances of each class. This will either be a dedicated constructor function or `new( )`.
 
+Whereas S3 objects are used throughout the R `base` and `stats` packages, you will see S4 used throughout Bioconductor and its associated packages.
+
+Lets take a look at an S4 object example:
+
+```{r S4}
+setClass('automobile2',
+         slots= list(make = 'character', #Here, 'character' indicates the data type
+                     model = 'character',
+                     n_wheels = 'integer')) #Obviously, number of wheels must be an integer!
+
+car3 <- new('automobile2', make = 'Audi', model = 'A7', n_wheels = as.integer(4))
+car3@model #note the use of @ instead of $
+class(car3)
+typeof(car3)
+```
+
+You can create methods like this:
+
+```{r S4_method}
+setMethod('print',
+          'automobile2',
+          function(x){
+            paste('This car has', x@n_wheels, 'wheels') #note the @
+          }
+)
+
+print(car3)
+car3 # notice that S4 objects don't use print() when you call them  
+```
+
+As you can probably guess, S4 objects are quite a bit 'safer' than S3 objects. For example, you can't create objects with attributes that don't match the class:
+
+```{r S4 safety, error=TRUE}
+dog2 <- new('automobile2', legs = 4, coat_color = 'brown')
+```
+### Exercise 2
+
+For this exercise, first run the following code (from the Example for mle{stats4}): 
+```{r exercise_2_start}
+library(stats4)
+y <- c(26, 17, 13, 12, 20, 5, 9, 8, 5, 4, 8)
+nLL <- function(lambda) -sum(stats::dpois(y, lambda, log = TRUE))
+fit0 <- mle(nLL, start = list(lambda = 5), nobs = NROW(y))
+```
+
+* What is the type of `fit0`? The class?
+
+* What are the slots for `fit0`?
+
+* Which method is used when you call `fit0` directly?
 
 [advancedr]: https://adv-r.hadley.nz/
 [oochapter]: https://adv-r.hadley.nz/oo.html
