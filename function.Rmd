@@ -2,7 +2,7 @@
 title: "Function"
 author: "Xingmin Aaron Zhang"
 date: "1/27/2019"
-output: html_document
+output: md_document
 ---
 
 ```{r setup, include=FALSE}
@@ -10,26 +10,118 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 # Goal
-- Learn when to use function and why
-- Learn how to define functions
+- Describe and utilize functions in R.
+- Modify default behavior of functions using arguments in R.
+- Learn how to create user-defined functions in R
 - Learn that functions are also objects and can be passed around as a variable
 - Learn to use *apply* to apply functions on lists of data
 
-# When to use functions
+# Functions
+A key feature of R is functions. Functions are **"self contained" modules of code that accomplish a specific task**. Functions usually take in some sort of data structure (value, vector, dataframe etc.), process it, and return a result.
 
-Whenever you need to repeat a section of code more than twice.
+The general usage for a function is the name of the function followed by parentheses:
 
-But also be gentle--do not try to create a function for every small task to perform.
+```r
+function_name(input)
+```
 
-# Why to use functions
+## Arguments
+The input(s) are called arguments, which can include:
 
-- Reduce replications
-- Easiser to change and debug
+* the physical object (any data structure) on which the function carries out a task
+* specifications that alter the way the function operates (e.g. options)
+
+In the following example, *sqrt* requires one argument (a) and return the square root of (a).
+```{r}
+a <- 16
+b <- sqrt(a)
+```
+
+Not all functions take arguments, for example:
+
+```r
+getwd()
+```
+However, most functions can take several arguments. If you don't specify a required argument when calling the function, you will either receive an error or the function will fall back on using a default.
+
+The defaults represent standard values that the author of the function specified as being "good enough in standard cases". However, if you want something specific, simply change the argument yourself with a value of your choice.
+
+An example is the *round()* function: the default value for *digits* is 0. 
+```r
+round(x, digits = 0)
+```
+
+Here, we’ve called round() with just one argument, 3.14159, and it has returned the value 3. That’s because the default is to round to the nearest whole number.
+```{r}
+round(3.1415926)
+```
+
+If we want more digits we can see how to do that by getting information about the round function.We see that if we want a different number of digits, we can type digits=2 or however many we want.
+```{r}
+?round
+round(3.1415926, digits = 2)
+```
+
+## Argument matching
+When a function takes in multiple arguments, R matches the values to the arguments by their names, or by their position. The following calls are identical:
+```{r}
+# match by name
+round(x = 3.1415926, digits = 2)
+round(digits = 2, x = 3.1415926)
+# match by position
+round(3.1415926, 2)
+# mix name and position
+round(3.1415926, digits = 2)
+# okay but avoid partial name matching
+round(3.1415926, d = 2)
+round(3.1415926, digi = 2)
+```
+
+Being explicit can help improve the readability of your code. 
+
+## Basic functions
+We have already used a few examples of basic functions in the previous lessons i.e getwd(), sqrt(), and factor(). These functions are available as part of R's built in capabilities, and we will explore a few more of these base functions below.
+
+```{r}
+surveys <- read.csv("surveys.csv")
+lengths <- surveys$hindfoot_length
+head(lengths)
+tail(lengths)
+summary(lengths)
+```
+
+We call some commonly used statistics functions to *lengths*. 
+*Alert: Missing values!*
+If you have missing values (**NA**), the functions will always return **NA**. The solution is to remove NA by overwriting the default option na.rm. 
+```{r}
+sum(lengths)
+sum(lengths, na.rm = TRUE)
+mean(lengths, na.rm = TRUE)
+median(lengths, na.rm = TRUE)
+max(lengths, na.rm = TRUE)
+min(lengths, na.rm = TRUE)
+```
+
+Note:
+R functions work on vectors. For example, if you pass a vector of numbers to sqrt(), it will take square root of each element and return them as a vector.
+```{r}
+random_numbers <- runif(5, min = 0, max = 100)
+sqrt(random_numbers)
+round(random_numbers, 1)
+```
+
+## Write user-defined functions
+
+Predifined functions in base R or external packages can take you pretty far but eventually you will to write your own functions to:
+1) meet a special need;
+2) reduce repetation of codes.
+
+**Whenever you need to repeat a section of code more than twice.**
 
 # How to define a function
 
 ```
-f <- function(arg1, arg2, arg3, ...) {
+function_name <- function(arg1, arg2, arg3, ...) {
     # do something interesting
     # return the value
 }
@@ -43,16 +135,40 @@ Write a function to convert fahrenheit to celcius.
 Hint: 
 c = (f - 32) * 5/9
 ```{r}
-f2c <- function(x) {
+fahr_to_cels <- function(x) {
     (x - 32) * 5 / 9
 }
 
-f2c(32)
-f2c(68)
-f2c(100)
+fahr_to_cels(32)
+fahr_to_cels(68)
+fahr_to_cels(100)
 ```
 
-## named arguments
+Challenge:
+
+Write a function to convert celcius to fahrenheit.
+
+## Chaining functions
+Functions allow us to divide a large task into smaller modules that are easier to create. 
+
+Write a function to convert celsius to kalvin.
+```{r}
+cels_to_kalv <- function(x) {
+  x + 273.15
+}
+```
+
+How to convert falrenheit to kalvin?
+We already know how to convert fahrenheit to celcius and celcius to kavelin.
+```{r}
+fahr_to_kalv <- function(x) {
+  cels <- fahr_to_cels(x)
+  kelv <- cels_to_kalv(cels)
+  kelv
+}
+```
+
+## Default values
 Named arguments are useful when you have a long list of arguments and you want to use the defaults for everything except for a few 
 ```{r}
 fruit_expense <- function(apple, orange, price_apple = 0.75, price_orange = 0.99) {
@@ -64,21 +180,11 @@ fruit_expense <- function(apple, orange, price_apple = 0.75, price_orange = 0.99
 fruit_expense(3, 4)
 ```
 
-## argument matching
-You you call a function with multiple arguments, R matches them by 
-1. check for exact match for a named argument;
-2. check for a partial match;
-3. check for a positional match.
-
-```{r}
-fruit_expense(o = 3, a = 4)
-```
-
 ## scoping
 
 Consider the following function
 ```{r}
-f <- function(x, y) {
+foo <- function(x, y) {
     x ^ 2 + y / z
 }
 ```
@@ -86,9 +192,86 @@ f <- function(x, y) {
 This function has 2 formal arguments, x and y. In the body of the function, there is another symbol z. In this case, z is called a *free viariable*. 
 
 How does R find the value of z? 
-R first searches the body of the function. If R cannot find the binding, it searches the global environment (* search for environment for yourself)
+R first searches the body of the function. If R cannot find the binding, it searches the global environment (* search for environment for yourself. 
+
+Do not abuse free variables as it can be difficult to debug!
+
+## Write functions with vector input
+
+Write a function that convert positive numbers and 0 to their square root, and do nothing to negative numbers. 
+```{r}
+my_sqrt <- function(x) {
+  if (x >= 0) {
+    result <- sqrt(x)
+  } else {
+    result <- x
+  }
+  result
+}
+```
+The above definition works, but only when the input is a single numeric value. We'd like the function to take vectors as that is often desired for working with dataframes.
+```{r}
+my_sqrt <- function(x) {
+  result <- vector(mode = "numeric", length = length(x))
+  for (i in 1:length(x)) {
+    if (x[i] >= 0) {
+      result[i] <- sqrt(x[i])
+    } else {
+      result[i] <- x[i]
+    }
+  }
+  result
+}
+```
+
+
+# Split and Apply
+
+In this section, we will introduce the *split* function that is very useful when combined with *apply* for summary statistics.
+
+Question: 
+What is the average weight of each species in the surveys data?
+We can ask many similar questions that appear extremely frequently:
+What is the total weight of all rodents captured at each plot?
+What is the max weight of rodents with species_id "AB" captured during each year?
+
+The solutions to the above questions are almost identical: 
+* choose a subset of the original dataset for the question and then 
+* call an appropriate function.
+
+Intuitively, you might want to write a for loop to select the weights for each species, and then call mean(). This will work (and you probably should try it out).
+```{r}
+weight_DM <- surveys[surveys$species_id == "DM",]$weight
+mean(weight_DM, na.rm = TRUE)
+
+species_names <- unique(surveys$species_id)
+for (species in species_names) {
+  weights <- surveys[surveys$species_id == species,]$weight
+  print(species)
+  print(mean(weights, na.rm = TRUE))
+}
+```
+
+How to split *weight* according to *species_id*?
+```{r}
+w <- split(surveys$weight, surveys$species_id)
+```
 
 ## passing functions as arguments
+
+```
+- apply     Apply Functions Over Array Margins
+- lapply    Apply a Function over a List or Vector (returns list)
+- sapply    Apply a Function over a List or Vector (returns vector)
+- mapply    Apply a Function to Multiple List or Vector Arguments
+- tapply    Apply a Function Over a Ragged Array
+- vapply    Apply a Function over a List or Vector (returns vector with pre-specified type of return value)
+- rapply    Recursively Apply a Function to a List
+```
+
+```{r}
+sapply(w, sum, na.rm = TRUE)
+```
 
 
 
