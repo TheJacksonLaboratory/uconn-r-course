@@ -13,25 +13,61 @@ knitr::opts_chunk$set(echo = TRUE)
 
 One of the advantages of working with R is the ability to easily create amazing plots. Plots are usually created using base R or special graphics-related packages, with [ggplot2][ggplot] being the most popular. For the sake of simplicity, this lesson will focus on base plotting, but we will also show you an example of ggplot2, because you will encounter it often.
 
-## The plot() function
+## The plot( ) function
 
 The generic function `plot()` works like magic, but is fairly easy to understand if you are familiar with S3/S4 objects. Lets go through some examples
 
 ```{r colors}
-colors <- as.factor(c('red', 'blue', 'green'))
-values <- c(123,80,100)
-plot(colors,values)
-
 data <- read.csv('../surveys.csv') #your path may differ here!
+plot(data$hindfoot_length, data$weight)
+
+plot(data$sex, data$weight)
+
 hf_histogram <- hist(data$hindfoot_length, plot=FALSE)
 plot(hf_histogram)
-
-plot(data$hindfoot_length, data$weight)
 ```
+
+In each of the first two examples, we supplied vectors as arguments to `plot()`. The graphs look different, because the default `plot()` uses the data type of the vector to decide how to plot. Because `data$hindfoot_length` and `data$weight` are both of type `integer` (feel free to check yourself), `plot()` creates a scatterplot. When of the the vectors is a `factor`, you get a boxplot.
+
+Finally, in the last example, `plot()` took only a single argument, `hf_histogram`, which was the output of the `hist()` function. Recall from the previous lesson that `hist()` produces an S3 object:
+
+```{r plot_S3}
+typeof(hf_histogram)
+class(hf_histogram)
+methods(class='histogram')
+```
+
+Here we can see that objects of the class `histogram` will plot with their own special plotting method. This is the case for many objects in R -- most of the statistical functions will output an S3 object of a class specific to that function, and these classes will have their own method for plotting.
+
+In fact, many functions will produce a plot immediately upon returning the object. For example:
+
+```{r hist_plot]}
+hist(data$hindfoot_length) # note that we are not using the plot=FALSE paramter, which we used previously
+```
+
+`data.frame` objects have a nice plotting method that allows you to explore the entire dataset at a glance:
+
+```{r plot_df}
+df <- data[ ,c('sex', 'hindfoot_length', 'weight', 'species_id')] #take only a few columns to simplify
+plot(df)
+```
+
+### Exercise 1
+
+* Create a plot comparing hindfoot_length and weight only where species_id == 'DM'
+
+* Use `?hist` to determine how to change the number of 'bins', or breaks, in a histogram.
+
+* Create three histogram plots of `data$weight`-- one with the default number of bins, one with fewer bins, and one with more bins
+
+## Customizing plots
+
+
+
 ## Other base plotting functions
 
 ## ggplot2
 
 
 
-[ggplot][https://ggplot2.tidyverse.org/index.html]
+[ggplot]: https://ggplot2.tidyverse.org/index.html
