@@ -2,7 +2,7 @@
 title: "12-Objects"
 author: "David Mellert"
 date: "2/7/2019"
-output: html_document
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
