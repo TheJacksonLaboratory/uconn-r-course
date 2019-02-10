@@ -1,11 +1,8 @@
 ---
-title: "98-Objects"
+title: "12-Objects"
 author: "David Mellert"
 date: "2/7/2019"
-output:
-  html_document: default
-  pdf_document: default
-  word_document: default
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
