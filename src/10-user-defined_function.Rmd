@@ -131,7 +131,7 @@ output
 ```
 
 ### break and continue
-**break** allows you to stop an iteration before whenever a condition is met; **continue** allow you to skip an element when a condition is met. 
+**break** allows you to stop an iteration when a condition is met; **continue** allow you to skip an element when a condition is met. 
 
 Example: iterate through a vector of numbers and print the numbers before the first 5. 
 ```{r}

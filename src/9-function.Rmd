@@ -218,6 +218,8 @@ Exercise 3
 ```{r}
 n <- 2:50
 t <- sum(1 / (n * 3))
-t
+round(t, 4)
+# or
+round(sum(1 / ((2:50) * 3)), 4)
 ```
 

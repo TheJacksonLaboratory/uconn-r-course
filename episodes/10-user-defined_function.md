@@ -167,8 +167,8 @@ output.
 
 ### break and continue
 
-**break** allows you to stop an iteration before whenever a condition is
-met; **continue** allow you to skip an element when a condition is met.
+**break** allows you to stop an iteration when a condition is met;
+**continue** allow you to skip an element when a condition is met.
 
 Example: iterate through a vector of numbers and print the numbers
 before the first 5.
@@ -378,13 +378,13 @@ Exercise 1
       }
     }
 
+    ## [1] 2
+    ## [1] 3
     ## [1] 4
     ## [1] 5
-    ## [1] 8
     ## [1] 9
-    ## [1] 12
-    ## [1] 13
-    ## [1] 14
+    ## [1] 10
+    ## [1] 11
     ## [1] 16
     ## [1] 17
     ## [1] 18
@@ -398,18 +398,18 @@ Exercise 1
       }
     }
 
-    ## [1] 0.6600037
-    ## [1] 0.9510002
-    ## [1] 0.819643
-    ## [1] 0.9905041
-    ## [1] 0.8397568
-    ## [1] 0.9742445
-    ## [1] 0.6200472
-    ## [1] 0.976793
-    ## [1] 0.94604
-    ## [1] 0.5235079
-    ## [1] 0.5867599
-    ## [1] 0.8709217
+    ## [1] 0.86239
+    ## [1] 0.9169364
+    ## [1] 0.9473953
+    ## [1] 0.9255272
+    ## [1] 0.7550343
+    ## [1] 0.8224689
+    ## [1] 0.5589386
+    ## [1] 0.8303599
+    ## [1] 0.8788659
+    ## [1] 0.964537
+    ## [1] 0.851327
+    ## [1] 0.5899138
 
     # c)
     out <- vector(mode = "numeric")
@@ -423,8 +423,8 @@ Exercise 1
 
     out
 
-    ##  [1] 0.6600037 0.9510002 0.8196430 0.9905041 0.8397568 0.9742445 0.6200472
-    ##  [8] 0.9767930 0.9460400 0.5235079 0.5867599 0.8709217
+    ##  [1] 0.8623900 0.9169364 0.9473953 0.9255272 0.7550343 0.8224689 0.5589386
+    ##  [8] 0.8303599 0.8788659 0.9645370 0.8513270 0.5899138
 
 Exercise 2
 
