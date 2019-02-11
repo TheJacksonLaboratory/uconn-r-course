@@ -1,3 +1,5 @@
+**This section is not covered in class.**
+
 Goals - Learn that functions are also objects and can be passed around
 as an argument - Learn to use *apply* to apply functions on lists of
 data
