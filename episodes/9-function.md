@@ -1,16 +1,22 @@
-Goal
-====
+Goals
+=====
 
 -   Describe and utilize functions in R.
 -   Modify default behavior of functions using arguments in R.
+-   Describe how R matches arguments
+-   Practice commonly used functions
+
+Some of the following materials are adapted from
+[swcarpentry](https://github.com/swcarpentry/r-novice-gapminder) and
+[hbctraining](https://github.com/hbctraining/Intro-to-R)
 
 Functions
 =========
 
-A key feature of R is functions. Functions are **"self contained"
-modules of code that accomplish a specific task**. Functions usually
-take in some sort of data structure (value, vector, dataframe etc.),
-process it, and return a result.
+A key feature of R is functions. Functions are self contained modules of
+code that accomplish a specific task. Functions usually take in some
+sort of data structure (value, vector, dataframe etc.), process it, and
+return a result.
 
 The general usage for a function is the name of the function followed by
 parentheses:
@@ -28,7 +34,7 @@ The input(s) are called arguments, which can include:
     options)
 
 In the following example, *sqrt* requires one argument (a) and return
-the square root of (a).
+the square root.
 
     a <- 16
     b <- sqrt(a)
@@ -63,8 +69,8 @@ nearest whole number.
     ## [1] 3
 
 If we want more digits we can see how to do that by getting information
-about the round function.We see that if we want a different number of
-digits, we can type digits=2 or however many we want.
+about the round function. We see that if we want a different number of
+digits, we can type *digits=2* or other decimal places.
 
     ?round
     round(3.1415926, digits = 2)
@@ -144,7 +150,7 @@ We will illustrate some commonly used statistics functions to *lengths*.
 
 *Alert: Missing values!* If you have missing values (**NA**), the
 functions will always return **NA**. The solution is to remove NA by
-overwriting the default option na.rm.
+overwriting the default option na.rm from **FALSE** to **TRUE**.
 
     sum_lengths <- sum(lengths, na.rm = TRUE)
     sum_lengths
@@ -176,19 +182,168 @@ overwriting the default option na.rm.
 
     ## [1] 2
 
-    #output <- c(sum_lengths, mean_lengths, sd_lengths, median_lengths, max_lengths, min_lengths)
-    #names(output) <- c("sum", "mean", "sd", "median", "max", "min")
-    #output
+Nested function call
+--------------------
 
-Note: R functions work on vectors. For example, if you pass a vector of
-numbers to sqrt(), it will take square root of each element and return
-them as a vector.
+Thus far, to perform any specific task, we have executed every function
+separately; if we wanted to use the results of a function for downstream
+purposes, we saved the results to a variable. As you become more
+comfortable with R, you will find that it is more efficient to code
+using nested functions, or functions within other functions, which will
+allow you to execute multiple commands at the same time.
 
-    random_numbers <- runif(5, min = 0, max = 100)
+Here is an example. We want to calculate the mean of length, and then
+round the number to 2 decimal places. The following solutions are
+equivalent.
+
+    # solution 1
+    mean_lengths <- mean(lengths, na.rm = TRUE)
+    round(mean_lengths, 2)
+
+    ## [1] 29.29
+
+    # solution 2
+    round(mean(lengths, na.rm = TRUE), 2)
+
+    ## [1] 29.29
+
+Here is another example. Count the number of NA in lengths. *is.na()*
+will test each element of a vector and return a logical vector of the
+same length, in which TRUE means the value at that position is NA and
+FALSE otherwise. We then call *sum()* on the vector to get the count of
+TRUEs (remember TRUE is 1 and FALSE is 0 in calculation).
+
+    sum(is.na(lengths))
+
+    ## [1] 4111
+
+To improve code readibility, do not chain TOO many function calls!
+
+Vectorization
+-------------
+
+Most of R's functions are vectorized, meaning that the function will
+operate on all elements of a vector without needing to loop through and
+act on each element one at a time. This makes writing code more concise,
+easy to read, and less error prone.
+
+For example, if you pass a vector of numbers to sqrt(), it will take
+square root of each element and return them as a vector.
+
+    random_numbers <- c(23.7, 16, 5.6, 90, 2)
     sqrt(random_numbers)
 
-    ## [1] 8.928925 8.816465 9.696636 8.602128 7.832343
+    ## [1] 4.868265 4.000000 2.366432 9.486833 1.414214
 
-    round(random_numbers, 1)
+R operators are also functions, and they work on vectors too. When you
+add a number to a vector, R adds the number to each element of the
+vector.
 
-    ## [1] 79.7 77.7 94.0 74.0 61.3
+    x <- 1:4
+    x * 10
+
+    ## [1] 10 20 30 40
+
+The multiplication happened to each element of the vector.
+
+We can also add two vectors together:
+
+    y <- 5:8
+    x + y
+
+    ## [1]  6  8 10 12
+
+Each element of x was added to its corresponding element of y:
+
+    x:   1  2  3  4
+         +  +  +  +
+    y:   5  6  7  8
+    -----------
+         6  8  10 12
+
+Comparison operators and logical operators are also vectorized:
+
+    x > 2
+
+    ## [1] FALSE FALSE  TRUE  TRUE
+
+    (x > 2) & (x < 4)
+
+    ## [1] FALSE FALSE  TRUE FALSE
+
+Summary
+-------
+
+-   Functions are modules of codes for certain task.
+-   Functions can have 0, 1 or multiple arguments. Some arguments are
+    required, and others are optional with a default value.
+-   R matches function arguments by name or position.
+-   Pay attention to NAs when calling functions.
+-   Many functions work on vectors.
+
+Exercise
+--------
+
+1.  The runif() function generates random number within a certain range.
+    Use ?runif to lookup the function, and a) return 10 random numbers
+    with the default options; b) return 9 random numbers between 0.5
+    and 0.6.
+
+2.  Read in surveys data, extract the weight column and assign it to a
+    variable, then find the sum, mean, sd, min, max of it.
+
+3.  We want to know the value t = 1 / (2 \* 3) + 1 / (3 \* 3) + 1 /
+    (4 \* 3) + ... + 1 / (50 \* 3). Use vectorization to calculate it
+    (round to the fourth digit)
+
+Solutions
+
+Exercise 1
+
+    # a)
+    runif(10)
+
+    ##  [1] 0.5519028 0.2153549 0.1615848 0.8456791 0.6180180 0.7700007 0.7352552
+    ##  [8] 0.1096106 0.7040028 0.7337310
+
+    # b)
+    runif(10, min = 0.5, max = 0.6)
+
+    ##  [1] 0.5524717 0.5898780 0.5963032 0.5000599 0.5745790 0.5576317 0.5443016
+    ##  [8] 0.5252999 0.5072950 0.5268031
+
+Exercise 2
+
+    surveys <- read.csv("surveys.csv")
+    weights <- surveys$weight
+    sum(weights, na.rm = TRUE)
+
+    ## [1] 1377594
+
+    mean(weights, na.rm = TRUE)
+
+    ## [1] 42.67243
+
+    sd(weights, na.rm = TRUE)
+
+    ## [1] 36.63126
+
+    median(weights, na.rm = TRUE)
+
+    ## [1] 37
+
+    max(weights, na.rm = TRUE)
+
+    ## [1] 280
+
+    min(weights, na.rm = TRUE)
+
+    ## [1] 4
+
+Exercise 3
+
+    n <- 2:50
+    t <- sum(1 / (n * 3))
+    t
+
+    ## [1] 1.166402

@@ -1,7 +1,199 @@
-Goal
-====
+Goals
+=====
 
--   Learn how to create user-defined functions in R
+-   Learn basic control flow: if else, for
+-   Learn how to create user-defined functions
+
+Some of the following materials are adapted from
+[swcarpentry](https://github.com/swcarpentry/r-novice-gapminder) and
+[hbctraining](https://github.com/hbctraining/Intro-to-R)
+
+Basic Control-flow
+==================
+
+We will briefly discuss conditional statements and loops. They are not
+only useful for writing functions, but also commonly used outside of
+functions.
+
+conditional statements: if else
+-------------------------------
+
+For conditional statements, the most commonly used approaches are the
+constructs:
+
+    # if
+    if (condition is true) {
+      perform action
+    }
+
+    # if ... else
+    if (condition is true) {
+      perform action
+    } else {  # that is, if the condition is false,
+      perform alternative action
+    }
+
+Say, for example, that we want R to print a message if a variable x has
+a particular value:
+
+    x <- 8
+
+    if (x >= 10) {
+      print("x is greater than or equal to 10")
+    }
+
+The print statement does not appear in the console because x is not
+greater than 10. To print a different message for numbers less than 10,
+we can add an else statement.
+
+    x <- 8
+
+    if (x >= 10) {
+      print("x is greater than or equal to 10")
+    } else {
+      print("x is less than 10")
+    }
+
+    ## [1] "x is less than 10"
+
+You can also test multiple conditions by using else if.
+
+    x <- 8
+
+    if (x >= 10) {
+      print("x is greater than or equal to 10")
+    } else if (x > 5) {
+      print("x is greater than 5, but less than 10")
+    } else {
+      print("x is less than 5")
+    }
+
+    ## [1] "x is greater than 5, but less than 10"
+
+looping: for
+------------
+
+If you want to iterate over a set of values, and perform the same
+operation on each, a for() loop will do the job.
+
+The basic structure of a for() loop is:
+
+    for(iterator in set of values){
+      do a thing
+    }
+
+For example:
+
+    for(i in 1:10){
+      print(i)
+    }
+
+    ## [1] 1
+    ## [1] 2
+    ## [1] 3
+    ## [1] 4
+    ## [1] 5
+    ## [1] 6
+    ## [1] 7
+    ## [1] 8
+    ## [1] 9
+    ## [1] 10
+
+The 1:10 bit creates a vector on the fly; you can iterate over any other
+vector as well.
+
+We will show you two ways to iterate through a vector: using indices and
+using elements.
+
+    x <- c("Boston", "Hartford", "New York")
+    # iterate using indices
+    for (i in 1:length(x)) {
+      # using i in some fashion
+      print(x[i])
+    }
+
+    ## [1] "Boston"
+    ## [1] "Hartford"
+    ## [1] "New York"
+
+    # iterate using elements
+    for (i in x) {
+      print(i)
+    }
+
+    ## [1] "Boston"
+    ## [1] "Hartford"
+    ## [1] "New York"
+
+We can use a for() loop nested within another for() loop to iterate over
+two things at once.
+
+    for(i in 1:3){
+      for(j in c('a', 'b', 'c', 'd')){
+        print(paste(i,j))
+      }
+    }
+
+    ## [1] "1 a"
+    ## [1] "1 b"
+    ## [1] "1 c"
+    ## [1] "1 d"
+    ## [1] "2 a"
+    ## [1] "2 b"
+    ## [1] "2 c"
+    ## [1] "2 d"
+    ## [1] "3 a"
+    ## [1] "3 b"
+    ## [1] "3 c"
+    ## [1] "3 d"
+
+We combine the conditional statement and looping. In the following
+example, we loop through a vector x, check whether each element is a
+even number. Place the result ("even", "odd") in a new vector as the
+output.
+
+    x <- c(7, 2, 8, 5, 1, 3)
+    output <- vector(mode = "character", length = length(x))
+    for (i in 1:length(x)) {
+      if (x[i] %% 2 == 0) {
+        output[i] = "even"
+      } else {
+        output[i] = "odd"
+      }
+    }
+    output
+
+    ## [1] "odd"  "even" "even" "odd"  "odd"  "odd"
+
+### break and continue
+
+**break** allows you to stop an iteration before whenever a condition is
+met; **continue** allow you to skip an element when a condition is met.
+
+Example: iterate through a vector of numbers and print the numbers
+before the first 5.
+
+    x <- c(7, 2, 8, 5, 1, 3)
+    for (i in x) {
+      if (i == 5) {
+        break;
+      }
+      print(i)
+    }
+
+    ## [1] 7
+    ## [1] 2
+    ## [1] 8
+
+### while
+
+**while** allows one to keep doing an operation until the condition is
+broken. Refer to
+[swcarpentry](https://github.com/swcarpentry/r-novice-gapminder/blob/gh-pages/_episodes/07-control-flow.md)
+for details.
+
+Write functions
+===============
 
 Predifined functions in base R or external packages can take you pretty
 far but eventually you will to write your own functions to: 1) meet a
@@ -10,7 +202,7 @@ special need; 2) reduce repetation of codes.
 **Whenever you need to repeat a section of code more than twice.**
 
 How to define a function
-========================
+------------------------
 
     function_name <- function(arg1, arg2, arg3, ...) {
         # do something interesting
@@ -131,3 +323,124 @@ for working with dataframes.
       }
       result
     }
+
+Summary
+-------
+
+-   Use **if else** for conditional statements and **for** for looping.
+-   The syntax for defining functions, default argument, free variables
+    and vectorization.
+
+Exercise
+--------
+
+1.  Define a vector x = runif(20), use a for loop to iterate through the
+    vector and a) print out the indices of elements that are larger than
+    0.5; b) print out elements that are larger than 0.5; *Challenge* c)
+    instead of print out the elements in b), put them in a new vector
+
+2.  Write a function that takes two vectors of the same length and
+    concatenate the elements from the two vectors. For example, (1,
+    2, 3) and ("a", "b", "c") will result in ("1 a", "2 b", "3 c").
+    Hint: use *paste()* to concatenate two strings.
+
+*Challenge* It is quite possible that a user of your function defined
+for the last exercise accidentally used it on two vectors of different
+sizes. Think about the consequences and try it out. Then search with
+?stopifnot and use it to make sure your function is called correctly.
+
+Solutions
+
+Exercise 1
+
+    # a)
+    x = runif(20)
+    for (i in 1:length(x)) {
+      if (x[i] > 0.5) {
+        print(i)
+      }
+    }
+
+    ## [1] 2
+    ## [1] 6
+    ## [1] 7
+    ## [1] 9
+    ## [1] 11
+    ## [1] 13
+    ## [1] 14
+    ## [1] 16
+    ## [1] 19
+    ## [1] 20
+
+    # b)
+    for (i in x) {
+      if (i > 0.5) {
+        print(i)
+      }
+    }
+
+    ## [1] 0.7698441
+    ## [1] 0.7957895
+    ## [1] 0.9537688
+    ## [1] 0.7056046
+    ## [1] 0.598654
+    ## [1] 0.8837986
+    ## [1] 0.5586225
+    ## [1] 0.5543949
+    ## [1] 0.634664
+    ## [1] 0.633902
+
+    # c)
+    out <- vector(mode = "numeric")
+    n = 1 # we use n to track the position of newly added elements in out
+    for (i in x) {
+      if (i > 0.5) {
+        out[n] = i
+        n = n + 1 # update n
+      }
+    }
+
+    out
+
+    ##  [1] 0.7698441 0.7957895 0.9537688 0.7056046 0.5986540 0.8837986 0.5586225
+    ##  [8] 0.5543949 0.6346640 0.6339020
+
+Exercise 2
+
+    f <- function(x, y) {
+      size = length(x)
+      output = vector(mode = "character", length = size)
+      for (i in 1:length(x)) {
+        output[i] = paste(x[i], y[i])
+      }
+      output
+    }
+
+    #test
+    f(c(1,2,3), c("a", "b", "c"))
+
+    ## [1] "1 a" "2 b" "3 c"
+
+    #what do the following calls return and why?
+    #f(c(1,2,3), c("a", "b"))
+    #f(c(1,2,3), c("a", "b", "c", "d"))
+
+Challenge
+
+    f <- function(x, y) {
+      stopifnot(length(x) == length(y))
+      size = length(x)
+      output = vector(mode = "character", length = size)
+      for (i in 1:length(x)) {
+        output[i] = paste(x[i], y[i])
+      }
+      output
+    }
+
+    #test
+    f(c(1,2,3), c("a", "b", "c"))
+
+    ## [1] "1 a" "2 b" "3 c"
+
+    # The following call will result in an error
+    #f(c(1,2,3), c("a", "b", "c", "d"))
