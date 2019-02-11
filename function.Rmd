@@ -1,6 +1,6 @@
 ---
 title: "Function"
-author: "Xingmin Aaron Zhang"
+author: "Aaron Zhang"
 date: "1/27/2019"
 output: md_document
 ---
@@ -9,15 +9,16 @@ output: md_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Goal
+# Goals
 - Describe and utilize functions in R.
 - Modify default behavior of functions using arguments in R.
-- Learn how to create user-defined functions in R
-- Learn that functions are also objects and can be passed around as a variable
-- Learn to use *apply* to apply functions on lists of data
+- Describe how R matches arguments
+- Practice commonly used functions
+
+Some of the following materials are adapted from [swcarpentry](https://github.com/swcarpentry/r-novice-gapminder) and [hbctraining](https://github.com/hbctraining/Intro-to-R)
 
 # Functions
-A key feature of R is functions. Functions are **"self contained" modules of code that accomplish a specific task**. Functions usually take in some sort of data structure (value, vector, dataframe etc.), process it, and return a result.
+A key feature of R is functions. Functions are self contained modules of code that accomplish a specific task. Functions usually take in some sort of data structure (value, vector, dataframe etc.), process it, and return a result.
 
 The general usage for a function is the name of the function followed by parentheses:
 
@@ -31,10 +32,11 @@ The input(s) are called arguments, which can include:
 * the physical object (any data structure) on which the function carries out a task
 * specifications that alter the way the function operates (e.g. options)
 
-In the following example, *sqrt* requires one argument (a) and return the square root of (a).
+In the following example, *sqrt* requires one argument (a) and return the square root.
 ```{r}
 a <- 16
 b <- sqrt(a)
+b
 ```
 
 Not all functions take arguments, for example:
@@ -42,7 +44,8 @@ Not all functions take arguments, for example:
 ```r
 getwd()
 ```
-However, most functions can take several arguments. If you don't specify a required argument when calling the function, you will either receive an error or the function will fall back on using a default.
+
+However, most functions can take several arguments. If you don't specify all arguments when calling the function, you will either receive an error or the function will fall back on using a default.
 
 The defaults represent standard values that the author of the function specified as being "good enough in standard cases". However, if you want something specific, simply change the argument yourself with a value of your choice.
 
@@ -56,7 +59,7 @@ Here, we’ve called round() with just one argument, 3.14159, and it has returne
 round(3.1415926)
 ```
 
-If we want more digits we can see how to do that by getting information about the round function.We see that if we want a different number of digits, we can type digits=2 or however many we want.
+If we want more digits we can see how to do that by getting information about the round function. We see that if we want a different number of digits, we can type *digits=2* or other decimal places.
 ```{r}
 ?round
 round(3.1415926, digits = 2)
@@ -72,6 +75,7 @@ round(digits = 2, x = 3.1415926)
 round(3.1415926, 2)
 # mix name and position
 round(3.1415926, digits = 2)
+round(digits = 2, 3.1415926)
 # okay but avoid partial name matching
 round(3.1415926, d = 2)
 round(3.1415926, digi = 2)
@@ -90,189 +94,130 @@ tail(lengths)
 summary(lengths)
 ```
 
-We call some commonly used statistics functions to *lengths*. 
+We will illustrate some commonly used statistics functions to *lengths*. 
+```{r}
+sum_lengths <- sum(lengths)
+sum_lengths
+```
+
 *Alert: Missing values!*
-If you have missing values (**NA**), the functions will always return **NA**. The solution is to remove NA by overwriting the default option na.rm. 
+If you have missing values (**NA**), the functions will always return **NA**. The solution is to remove NA by overwriting the default option na.rm from **FALSE** to **TRUE**. 
+
 ```{r}
-sum(lengths)
-sum(lengths, na.rm = TRUE)
-mean(lengths, na.rm = TRUE)
-median(lengths, na.rm = TRUE)
-max(lengths, na.rm = TRUE)
-min(lengths, na.rm = TRUE)
+sum_lengths <- sum(lengths, na.rm = TRUE)
+sum_lengths
+mean_lengths <- mean(lengths, na.rm = TRUE)
+mean_lengths
+sd_lengths <- sd(lengths, na.rm = TRUE)
+sd_lengths
+median_lengths <- median(lengths, na.rm = TRUE)
+median_lengths
+max_lengths <- max(lengths, na.rm = TRUE)
+max_lengths
+min_lengths <- min(lengths, na.rm = TRUE)
+min_lengths
 ```
 
-Note:
-R functions work on vectors. For example, if you pass a vector of numbers to sqrt(), it will take square root of each element and return them as a vector.
+## Nested function call
+Thus far, to perform any specific task, we have executed every function separately; if we wanted to use the results of a function for downstream purposes, we saved the results to a variable. As you become more comfortable with R, you will find that it is more efficient to code using nested functions, or functions within other functions, which will allow you to execute multiple commands at the same time.
+
+Here is an example. We want to calculate the mean of length, and then round the number to 2 decimal places. The following solutions are equivalent.
 ```{r}
-random_numbers <- runif(5, min = 0, max = 100)
+# solution 1
+mean_lengths <- mean(lengths, na.rm = TRUE)
+round(mean_lengths, 2)
+
+# solution 2
+round(mean(lengths, na.rm = TRUE), 2)
+```
+
+Here is another example. Count the number of NA in lengths. *is.na()* will test each element of a vector and return a logical vector of the same length, in which TRUE means the value at that position is NA and FALSE otherwise. We then call *sum()* on the vector to get the count of TRUEs (remember TRUE is 1 and FALSE is 0 in calculation). 
+```{r}
+sum(is.na(lengths))
+```
+
+To improve code readibility, do not chain TOO many function calls!
+
+## Vectorization
+Most of R's functions are vectorized, meaning that the function will operate on all elements of a vector without needing to loop through and act on each element one at a time. This makes writing code more concise, easy to read, and less error prone.
+
+For example, if you pass a vector of numbers to sqrt(), it will take square root of each element and return them as a vector.
+```{r}
+random_numbers <- c(23.7, 16, 5.6, 90, 2)
 sqrt(random_numbers)
-round(random_numbers, 1)
 ```
 
-## Write user-defined functions
-
-Predifined functions in base R or external packages can take you pretty far but eventually you will to write your own functions to:
-1) meet a special need;
-2) reduce repetation of codes.
-
-**Whenever you need to repeat a section of code more than twice.**
-
-# How to define a function
-
-```
-function_name <- function(arg1, arg2, arg3, ...) {
-    # do something interesting
-    # return the value
-}
-```
-
-The return value is the last expression in the function body.
-
-## example 1
-
-Write a function to convert fahrenheit to celcius.
-Hint: 
-c = (f - 32) * 5/9
+R operators are also functions, and they work on vectors too. When you add a number to a vector, R adds the number to each element of the vector. 
 ```{r}
-fahr_to_cels <- function(x) {
-    (x - 32) * 5 / 9
-}
-
-fahr_to_cels(32)
-fahr_to_cels(68)
-fahr_to_cels(100)
+x <- 1:4
+x * 10
 ```
+The multiplication happened to each element of the vector.
 
-Challenge:
-
-Write a function to convert celcius to fahrenheit.
-
-## Chaining functions
-Functions allow us to divide a large task into smaller modules that are easier to create. 
-
-Write a function to convert celsius to kalvin.
-```{r}
-cels_to_kalv <- function(x) {
-  x + 273.15
-}
-```
-
-How to convert falrenheit to kalvin?
-We already know how to convert fahrenheit to celcius and celcius to kavelin.
-```{r}
-fahr_to_kalv <- function(x) {
-  cels <- fahr_to_cels(x)
-  kelv <- cels_to_kalv(cels)
-  kelv
-}
-```
-
-## Default values
-Named arguments are useful when you have a long list of arguments and you want to use the defaults for everything except for a few 
-```{r}
-fruit_expense <- function(apple, orange, price_apple = 0.75, price_orange = 0.99) {
-    apple_expense <- apple * price_apple
-    orange_expense <- orange * price_orange
-    apple_expense + orange_expense
-}
-
-fruit_expense(3, 4)
-```
-
-## scoping
-
-Consider the following function
-```{r}
-foo <- function(x, y) {
-    x ^ 2 + y / z
-}
-```
-
-This function has 2 formal arguments, x and y. In the body of the function, there is another symbol z. In this case, z is called a *free viariable*. 
-
-How does R find the value of z? 
-R first searches the body of the function. If R cannot find the binding, it searches the global environment (* search for environment for yourself. 
-
-Do not abuse free variables as it can be difficult to debug!
-
-## Write functions with vector input
-
-Write a function that convert positive numbers and 0 to their square root, and do nothing to negative numbers. 
-```{r}
-my_sqrt <- function(x) {
-  if (x >= 0) {
-    result <- sqrt(x)
-  } else {
-    result <- x
-  }
-  result
-}
-```
-The above definition works, but only when the input is a single numeric value. We'd like the function to take vectors as that is often desired for working with dataframes.
-```{r}
-my_sqrt <- function(x) {
-  result <- vector(mode = "numeric", length = length(x))
-  for (i in 1:length(x)) {
-    if (x[i] >= 0) {
-      result[i] <- sqrt(x[i])
-    } else {
-      result[i] <- x[i]
-    }
-  }
-  result
-}
-```
-
-
-# Split and Apply
-
-In this section, we will introduce the *split* function that is very useful when combined with *apply* for summary statistics.
-
-Question: 
-What is the average weight of each species in the surveys data?
-We can ask many similar questions that appear extremely frequently:
-What is the total weight of all rodents captured at each plot?
-What is the max weight of rodents with species_id "AB" captured during each year?
-
-The solutions to the above questions are almost identical: 
-* choose a subset of the original dataset for the question and then 
-* call an appropriate function.
-
-Intuitively, you might want to write a for loop to select the weights for each species, and then call mean(). This will work (and you probably should try it out).
-```{r}
-weight_DM <- surveys[surveys$species_id == "DM",]$weight
-mean(weight_DM, na.rm = TRUE)
-
-species_names <- unique(surveys$species_id)
-for (species in species_names) {
-  weights <- surveys[surveys$species_id == species,]$weight
-  print(species)
-  print(mean(weights, na.rm = TRUE))
-}
-```
-
-How to split *weight* according to *species_id*?
-```{r}
-w <- split(surveys$weight, surveys$species_id)
-```
-
-## passing functions as arguments
-
-```
-- apply     Apply Functions Over Array Margins
-- lapply    Apply a Function over a List or Vector (returns list)
-- sapply    Apply a Function over a List or Vector (returns vector)
-- mapply    Apply a Function to Multiple List or Vector Arguments
-- tapply    Apply a Function Over a Ragged Array
-- vapply    Apply a Function over a List or Vector (returns vector with pre-specified type of return value)
-- rapply    Recursively Apply a Function to a List
-```
+We can also add two vectors together:
 
 ```{r}
-sapply(w, sum, na.rm = TRUE)
+y <- 5:8
+x + y
+```
+Each element of x was added to its corresponding element of y:
+```r
+x:   1  2  3  4
+     +  +  +  +
+y:   5  6  7  8
+-----------
+     6  8  10 12
 ```
 
+Comparison operators and logical operators are also vectorized:
+```{r}
+x > 2
+(x > 2) & (x < 4)
+```
+
+## Summary
+- Functions are modules of codes for certain task. 
+- Functions can have 0, 1 or multiple arguments. Some arguments are required, and others are optional with a default value. 
+- R matches function arguments by name or position.
+- Pay attention to NAs when calling functions. 
+- Many functions work on vectors. 
+
+## Exercise
+
+1. The runif() function generates random number within a certain range. Use ?runif to lookup the function, and a) return 10 random numbers with the default options; b) return 9 random numbers between 0.5 and 0.6. 
+
+2. Read in surveys data, extract the weight column and assign it to a variable, then find the sum, mean, sd, min, max of it.
+
+3. We want to know the value t = 1 / (2 \* 3) + 1 / (3 \* 3) + 1 / (4 \* 3) + ... + 1 / (50 * 3). Use vectorization to calculate it (round to the fourth digit)
+
+  
 
 
+
+Solutions
+
+Exercise 1
+```{r}
+# a)
+runif(10)
+# b)
+runif(10, min = 0.5, max = 0.6)
+```
+Exercise 2
+```{r}
+surveys <- read.csv("surveys.csv")
+weights <- surveys$weight
+sum(weights, na.rm = TRUE)
+mean(weights, na.rm = TRUE)
+sd(weights, na.rm = TRUE)
+median(weights, na.rm = TRUE)
+max(weights, na.rm = TRUE)
+min(weights, na.rm = TRUE)
+```
+Exercise 3
+```{r}
+n <- 2:50
+t <- sum(1 / (n * 3))
+t
+```
 
