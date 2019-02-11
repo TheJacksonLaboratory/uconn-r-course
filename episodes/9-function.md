@@ -126,7 +126,7 @@ lessons i.e getwd(), sqrt(), and factor(). These functions are available
 as part of R's built in capabilities, and we will explore a few more of
 these base functions below.
 
-    surveys <- read.csv("surveys.csv")
+    surveys <- read.csv("../surveys.csv")
     lengths <- surveys$hindfoot_length
     head(lengths)
 
@@ -258,7 +258,7 @@ Each element of x was added to its corresponding element of y:
     x:   1  2  3  4
          +  +  +  +
     y:   5  6  7  8
-    -----------
+    ----------------
          6  8  10 12
 
 Comparison operators and logical operators are also vectorized:
@@ -303,18 +303,18 @@ Exercise 1
     # a)
     runif(10)
 
-    ##  [1] 0.5519028 0.2153549 0.1615848 0.8456791 0.6180180 0.7700007 0.7352552
-    ##  [8] 0.1096106 0.7040028 0.7337310
+    ##  [1] 0.46401468 0.64898654 0.48673753 0.16667053 0.05367395 0.70722461
+    ##  [7] 0.17236492 0.42475624 0.51831692 0.58845445
 
     # b)
     runif(10, min = 0.5, max = 0.6)
 
-    ##  [1] 0.5524717 0.5898780 0.5963032 0.5000599 0.5745790 0.5576317 0.5443016
-    ##  [8] 0.5252999 0.5072950 0.5268031
+    ##  [1] 0.5919292 0.5805905 0.5017435 0.5056034 0.5827376 0.5353178 0.5336738
+    ##  [8] 0.5521169 0.5314890 0.5357685
 
 Exercise 2
 
-    surveys <- read.csv("surveys.csv")
+    surveys <- read.csv("../surveys.csv")
     weights <- surveys$weight
     sum(weights, na.rm = TRUE)
 

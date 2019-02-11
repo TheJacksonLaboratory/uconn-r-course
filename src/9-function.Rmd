@@ -87,7 +87,7 @@ Being explicit can help improve the readability of your code.
 We have already used a few examples of basic functions in the previous lessons i.e getwd(), sqrt(), and factor(). These functions are available as part of R's built in capabilities, and we will explore a few more of these base functions below.
 
 ```{r}
-surveys <- read.csv("surveys.csv")
+surveys <- read.csv("../surveys.csv")
 lengths <- surveys$hindfoot_length
 head(lengths)
 tail(lengths)
@@ -165,7 +165,7 @@ Each element of x was added to its corresponding element of y:
 x:   1  2  3  4
      +  +  +  +
 y:   5  6  7  8
------------
+----------------
      6  8  10 12
 ```
 
@@ -205,7 +205,7 @@ runif(10, min = 0.5, max = 0.6)
 ```
 Exercise 2
 ```{r}
-surveys <- read.csv("surveys.csv")
+surveys <- read.csv("../surveys.csv")
 weights <- surveys$weight
 sum(weights, na.rm = TRUE)
 mean(weights, na.rm = TRUE)

@@ -26,7 +26,7 @@ Intuitively, you might want to write a for loop to select the weights
 for each species, and then call mean(). This will work and you should
 try it out.
 
-    surveys <- read.csv("surveys.csv")
+    surveys <- read.csv("../surveys.csv")
 
     weight_DM <- surveys[surveys$species_id == "DM",]$weight
     mean(weight_DM, na.rm = TRUE)
