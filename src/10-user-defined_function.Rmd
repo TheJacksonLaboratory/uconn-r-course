@@ -245,7 +245,7 @@ R first searches the body of the function. If R cannot find the binding, it sear
 
 Do not abuse free variables as it can be difficult to debug!
 
-## Write functions with vector input
+## Write functions with vector input (not covered in class)
 
 Write a function that convert positive numbers and 0 to their square root, and do nothing to negative numbers. 
 ```{r}
