@@ -11,7 +11,7 @@ One of the advantages of working with R is the ability to easily create amazing 
 The plot( ) function
 --------------------
 
-The generic function `plot()` works like magic, but is fairly easy to understand if you are familiar with S3/S4 objects. Lets go through some examples
+The generic function `plot()` seems to work like magic, but is fairly easy to understand if you are familiar with S3 objects. Lets go through some examples
 
 ``` r
 data <- read.csv('../surveys.csv') #your path may differ here!
@@ -33,7 +33,7 @@ plot(hf_histogram)
 
 ![](13-plotting_files/figure-markdown_github/colors-3.png)
 
-In each of the first two examples, we supplied vectors as arguments to `plot()`. The graphs look different, because the default `plot()` uses the data type of the vector to decide how to plot. Because `data$hindfoot_length` and `data$weight` are both of type `integer` (feel free to check yourself), `plot()` creates a scatterplot. When of the the vectors is a `factor`, you get a boxplot.
+In each of the first two examples, we supplied vectors as arguments to `plot()`. The graphs look different, because the default `plot()` uses the data type of the vector to decide how to plot. Because `data$hindfoot_length` and `data$weight` are both of type `integer` (feel free to check yourself), `plot()` creates a scatterplot. When one of the the vectors is a `factor`, you get a boxplot.
 
 Finally, in the last example, `plot()` took only a single argument, `hf_histogram`, which was the output of the `hist()` function. Recall from the previous lesson that `hist()` produces an S3 object:
 
@@ -61,7 +61,7 @@ Here we can see that objects of the class `histogram` will plot with their own s
 In fact, many functions will produce a plot immediately upon returning the object. For example:
 
 ``` r
-hist(data$hindfoot_length) # note that we are not using the plot=FALSE paramter, which we used previously
+hist(data$hindfoot_length) # note that we are not using the plot=FALSE parameter anymore
 ```
 
 ![](13-plotting_files/figure-markdown_github/hist_plot%5D-1.png)
@@ -114,7 +114,9 @@ plot(data$hindfoot_length, data$weight,
      )
 ```
 
-![](13-plotting_files/figure-markdown_github/custom_plot-1.png) The `col` parameter in the above example chooses a color for each point based on an integer value. This makes sense because if you recall, Factors in R take on integer values, which you can check with `levels()`.
+![](13-plotting_files/figure-markdown_github/custom_plot-1.png)
+
+The `col` parameter in the above example chooses a color for each point based on an integer value. This makes sense because if you recall, factors in R take on integer values. You can check how factors are ordered (and thus their integer value) with `levels()`.
 
 ``` r
 levels(data$sex)

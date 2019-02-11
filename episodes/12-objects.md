@@ -43,8 +43,8 @@ First, we should mention that Hadley Wickham has an excellent [chapter on object
 
 Objects are a bit confusing in R because there are multiple different object systems that all work a bit differently. These different systems can be broadly categorized into:
 
-1.  S3/S4 -- These are the older object systems in R and are used throughout "Base R" and Bioconductor.
-2.  Reference Classes -- Reference Classes (RC) are a more recent development in R. RC objects work fairly similarly to how objects work in other languages (e.g., Python), but you will not see these nearly as often as S3/S4 objects, so they will not be covered in this lesson.
+1.  **S3/S4** -- These are the older object systems in R and are used throughout "Base R" and Bioconductor.
+2.  **Reference Classes** -- Reference Classes (RC) are a more recent development in R. RC objects work fairly similarly to how objects work in other languages (e.g., Python), but you will not see these nearly as often as S3/S4 objects, so they will not be covered in this lesson.
 
 S3 Objects
 ----------
@@ -84,7 +84,7 @@ car
     ## attr(,"class")
     ## [1] "automobile"
 
-You can see the class now shows up. You can also check the class of an object with the `class()` function:
+You can see that the class now shows up. You can also check the class of an object with the `class()` function:
 
 ``` r
 class(car)
@@ -202,7 +202,7 @@ print(data_small)
 
 So you can use the same `print()` function on a regular string, on our `car` automobile object, and on our `data_small` data.frame object. But you might notice that `data_small` prints out in a nice way, whereas `car` just looks like the same old list we started with.
 
-Now what does print do when we remove the `object`ness of `car` and `data_small` with `unclass()`?
+Now what does print do when we remove the object-ness of `car` and `data_small` with `unclass()`?
 
 ``` r
 car <- unclass(car)
@@ -605,7 +605,7 @@ print(car3)
     ## [1] "This car has 4 wheels"
 
 ``` r
-car3 # notice that S4 objects don't use print() when you call them  
+car3 # notice that S4 objects don't necessarily use print() when you call them  
 ```
 
     ## An object of class "automobile2"
